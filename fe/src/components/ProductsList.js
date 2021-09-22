@@ -14,7 +14,8 @@ const ProductsList = ({ products, offset, onChangePage, pages }) => {
             
             {products.map(product => {
                 return <div key={product._id} className={ styles.product } >
-                    <div className={styles.image} style={{background: `url(${product.imageLink})`, backgroundPosition: 'center center', backgroundSize: '420px'}}
+                    <div className={styles.image} style={{background: `url(${product.imageLink})`, 
+                     backgroundPosition: 'center center', backgroundSize: '420px', backgroundRepeat: 'no-repeat' }}
                      onClick={() => clickProductHandler(product._id)}></div>
                      <div className={styles['info-container']}>
                      <div className={styles.description }>{ product.title }</div>

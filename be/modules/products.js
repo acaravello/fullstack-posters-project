@@ -11,8 +11,8 @@ const getFiles = async (limit = 25, offset = 0) => {
    return data;
 }
 
-const getSingleProduct = async (id) => {
-   const productFetched = await Product.findById(id);
+const getSingleProduct = async (productId) => {
+   const productFetched = await Product.findById(productId);
    return productFetched;
 }
 
@@ -26,4 +26,9 @@ const getSingleProduct = async (id) => {
    return productToAdd;
  }
 
-module.exports = { getFiles, getSingleProduct, createProduct }
+ const deleteProduct = async (productId) => {
+    const deleteOperation = await Product.deleteOne({ _id: productId });
+    return deleteOperation;
+ }
+
+module.exports = { getFiles, getSingleProduct, createProduct, deleteProduct }

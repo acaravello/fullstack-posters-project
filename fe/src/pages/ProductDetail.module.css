@@ -3,6 +3,7 @@
     margin-top: 72px;
     margin-bottom: 20px;
     width: 100%;
+    max-width: 700px;
 }
 
 .description {
@@ -17,6 +18,10 @@
 
 .image-container {
     width: 100%;
+}
+
+.image-container img {
+    max-width: 100%;
 }
 
 .tag-container {
@@ -45,14 +50,13 @@
     opacity: 0.7;
 }
 
-.back-button {
+.back-button, .edit-button, .delete-button {
     padding: 12px 40px;
     appearance: none;
-    background-color: #4c4177;   
     border: none;
     border-radius: 2px;
     font-size: 14px;
-    background-image: linear-gradient(315deg, #4c4177 0%, #2a5470 74%);
+    
     color: #fff;
     cursor: pointer;
     margin-top: 20px;
@@ -60,6 +64,49 @@
     transition: opacity 600ms ease;
 }
 
-.back-button:hover {
+.back-button:hover, .edit-button:hover, .delete-button:hover {
     opacity: 0.8;
 }
+
+.edit-button {
+    background-color: #aecad6;
+    background-image: linear-gradient(315deg, #aecad6 0%, #b8d3fe 74%);
+    margin-right: 12px;
+}
+
+.delete-button {
+    background-color: #d5adc8;
+    background-image: linear-gradient(315deg, #d5adc8 0%, #ff8489 74%);
+    margin-right: 12px;
+}
+
+.back-button {
+    background-color: #4c4177;   
+    background-image: linear-gradient(315deg, #4c4177 0%, #2a5470 74%);
+}
+
+.modal-content {
+    cursor: default;
+    font-size: 21px;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+}
+
+.modal-actions .back-button {
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.modal-actions .delete-button {
+    border-radius: 5px;
+}
+
+

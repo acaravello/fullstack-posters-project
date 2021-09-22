@@ -90,7 +90,6 @@ const ProductModify = () => {
                     'Content-Type': 'application/json'
                 }
             });
-
             if(!response.ok) {
                 throw new Error('Error in contacting server! try again in a few minutes.');
             }

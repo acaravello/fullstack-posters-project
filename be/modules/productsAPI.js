@@ -40,10 +40,17 @@ const editProduct = async (req,res) => {
     console.log(req.body);
 }
 
-const deleteProduct = (req, res) => {
+const deleteProduct = async (req, res) => {
     const { productId } = req.params;
-    console.log("product to delete");
-    console.log(productId);
+    try {   
+        const deleteProduct = await products.deleteProduct(productId);
+        res.status(201).json({
+            message: 'product deleted succesfully',
+            response: deleteProduct
+        });
+    } catch(err) {
+        res.status(500).json({ error: err.message })
+    }
 }
 
 module.exports = { productsList, getProduct, addProduct, editProduct, deleteProduct }
