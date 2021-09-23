@@ -153,6 +153,7 @@ const ProductModify = () => {
             history.replace("/");
         } catch(error) {
             console.log("error in submitting new product");
+            console.log(error)
             setError(error.message)
         }
         setSubmitIsLoading(false);

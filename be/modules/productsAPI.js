@@ -44,8 +44,6 @@ const editProduct = async (req,res) => {
     } catch(err) {
         res.status(500).json({ error: err.message })
     }
-    console.log(productId);
-    console.log(req.body);
 }
 
 const deleteProduct = async (req, res) => {
