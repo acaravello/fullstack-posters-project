@@ -21,9 +21,20 @@ const getSingleProduct = async (productId) => {
    const imageLink = product.imageLink;
    const author = product.author;
    const authorLink = product.authorLink;
-   const tags = [...product.tags]
+   const tags = [...product.tags];
    const productToAdd = await new Product({ title, imageLink, author, authorLink, tags }).save();
    return productToAdd;
+ }
+
+ const editProduct = async (productId, product) => {
+   const title = product.title;
+   const imageLink = product.imageLink;
+   const author = product.author;
+   const authorLink = product.authorLink;
+   const tags = [...product.tags];
+   const productToEdit = { title, imageLink, author, authorLink, tags }
+   const editOperation = await Product.updateOne({_id: productId }, productToEdit);
+   return editOperation;
  }
 
  const deleteProduct = async (productId) => {
@@ -31,4 +42,4 @@ const getSingleProduct = async (productId) => {
     return deleteOperation;
  }
 
-module.exports = { getFiles, getSingleProduct, createProduct, deleteProduct }
+module.exports = { getFiles, getSingleProduct, createProduct, deleteProduct, editProduct }

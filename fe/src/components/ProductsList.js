@@ -11,7 +11,6 @@ const ProductsList = ({ products, offset, onChangePage, pages }) => {
     return(
         <>
         <div className={ styles.products }>
-            
             {products.map(product => {
                 return <div key={product._id} className={ styles.product } >
                     <div className={styles.image} style={{background: `url(${product.imageLink})`, 

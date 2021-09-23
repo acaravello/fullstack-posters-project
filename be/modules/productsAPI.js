@@ -35,7 +35,15 @@ const addProduct = async (req, res) => {
 
 const editProduct = async (req,res) => {
     const { productId } = req.params;
-    console.log("product to edit req is");
+    try {
+        const editedProduct = await products.editProduct(productId, req.body);
+        res.status(200).json({
+            message: 'product edited succesfully',
+            response: editedProduct
+        })
+    } catch(err) {
+        res.status(500).json({ error: err.message })
+    }
     console.log(productId);
     console.log(req.body);
 }

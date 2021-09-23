@@ -44,9 +44,11 @@ input {
 
 .tag-list {
     display: flex;
-    justify-content: center;
-    margin-top: 30px;
     flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+    margin-top: 30px;
+    max-width: 500px;
 }
 
 .tag-list p {
@@ -63,6 +65,10 @@ input {
 
 .tag-input-container {
     display: flex;
+}
+
+.form {
+    width: 720px;
 }
 
 .form button.add-tag {
@@ -117,9 +123,18 @@ input {
     cursor: pointer;
     opacity: 1;
     transition: opacity 0.8s ease;
+    border-radius: 5px;
 }
 
 .single-tag:hover {
     opacity: 0.8;
+}
+
+.modify-loader {
+    margin-bottom: 50px;
+}
+
+.multiple-buttons-container {
+    display: block
 }
 

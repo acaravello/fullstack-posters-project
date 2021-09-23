@@ -6,7 +6,7 @@ import ProductsList from "../components/ProductsList";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_PAGE } from "../store/store";
 
-const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
+const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
 const Homepage = ({ itemsPerPage = 25}) => {
 
@@ -22,7 +22,7 @@ const Homepage = ({ itemsPerPage = 25}) => {
         setIsLoading(true);
         setError(null);
         try{
-            const response = await fetch(`${serverAddress}/products?limit=25&offset=${offset}`);
+            const response = await fetch(`${SERVER_ADDRESS}/products?limit=25&offset=${offset}`);
             if(!response.ok) {
             throw new Error('Error in contacting the server! try again in a few minutes.')
             }

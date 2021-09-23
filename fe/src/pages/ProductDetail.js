@@ -7,7 +7,7 @@ import Modal from "../components/UI/Modal";
 import styles from "./ProductDetail.module.css";
 import { SET_PAGE } from "../store/store";
 
-const serverAddres = process.env.REACT_APP_SERVER_ADDRESS;
+const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
 const ProductDetail = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,7 @@ const ProductDetail = () => {
         setIsLoading(true);
         setError(false);
         try {
-            const response = await fetch(`${serverAddres}/products/${productId}`);
+            const response = await fetch(`${SERVER_ADDRESS}/products/${productId}`);
             if(!response.ok) {
                 throw new Error('Error in contacting server! try again in a few minutes.');
             }
@@ -52,7 +52,7 @@ const ProductDetail = () => {
     }
 
     const onEditHandler = () => {
-        
+        history.push(`/edit/${productId}`);
     }
 
     const onDeleteHandler = () => {
@@ -66,7 +66,7 @@ const ProductDetail = () => {
     const confirmDeleteHandler = async() => {
         setIsSubmitting(true);
         try {
-            const response = await fetch(`${serverAddres}/products/${productId}`, {
+            const response = await fetch(`${SERVER_ADDRESS}/products/${productId}`, {
                 method: 'DELETE'
             });
             if(!response.ok) {
@@ -120,7 +120,7 @@ const ProductDetail = () => {
                 <button className={ styles['delete-button']} onClick={ confirmDeleteHandler }>Confirm</button>
             </div>
             </>
-        }
+            }
             </Modal>}
         </>
         

@@ -1,20 +1,19 @@
 
 import React, { useState, useRef, useReducer, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import Input from "../components/UI/Input";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import styles from "./ProductModify.module.css";
 import { SET_PAGE } from "../store/store";
 
-
 const SET_TITLE = "SET_TITLE";
 const SET_IMGLINK = "SET_IMGLINK";
 const SET_AUTHOR = "SET_AUTHOR";
 const SET_AUTHORLINK = "SET_LINK";
+const SET_FORM_FROM_EDIT = "SET_FORM_FROM_EDIT";
 const FORM_VALIDITY = "FORM_VALIDITY";
-const serverAddress = process.env.REACT_APP_SERVER_ADDRESS;
-
+const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
 const formReducer = (state, action) => {
     switch(action.type) {
@@ -26,6 +25,9 @@ const formReducer = (state, action) => {
             return { ...state, authorValid: action.payload }
         case SET_AUTHORLINK: 
             return { ...state, authorLinkValid: action.payload }
+        case SET_FORM_FROM_EDIT: 
+            return { ...state, formIsValid: true, titleValid: true,
+                imgLinkValid: true, authorValid: true, authorLinkValid: true }
         case FORM_VALIDITY:
             let formTotalValidation = true;
             for (let field in state) {
@@ -43,6 +45,7 @@ const ProductModify = () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const { productId } = useParams();
 
     const titleRef = useRef();
     const imgLinkRef = useRef();
@@ -52,9 +55,12 @@ const ProductModify = () => {
 
     const [tags, setTags] = useState([]);
     const [addEnabled, setAddEnabled] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [submitIsLoading, setSubmitIsLoading] = useState(false);
+    const [modifyIsLoading, setModifyIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [tagSelected, setTagSelected] = useState(null);
+    const [editingProduct, isEditingProduct] = useState(null);
+    const [productToModify, setProductToModify] = useState(null);
 
     const [formState, dispatchForm] = useReducer(formReducer, {
         formIsValid: false,
@@ -71,6 +77,49 @@ const ProductModify = () => {
         return () => { clearTimeout(identifier); }
       }, [titleValid, imgLinkValid, authorValid, authorLinkValid]);
 
+      useEffect(() => {
+        isEditingProduct(productId);
+        if(productId) {
+            fetchProductToEdit(productId);
+        } else {
+            titleRef.current.value = "";
+            imgLinkRef.current.value = "";
+            authorRef.current.value = "";
+            authorLinkRef.current.value = "";
+            tagSelectedRef.current.value = "";
+            setTagSelected(null);
+            setTags([]);
+        }
+      }, [productId]);
+
+      useEffect(() => {
+          if(productToModify) {
+            const { title, imageLink, author, authorLink, tags } = productToModify;
+            titleRef.current.value = title;
+            imgLinkRef.current.value = imageLink;
+            authorRef.current.value = author;
+            authorLinkRef.current.value = authorLink;
+            setTagSelected(null);
+            setTags([...tags]);
+          }
+      }, [productToModify])
+
+    const fetchProductToEdit = async (productId) => {
+        try{
+            setModifyIsLoading(true);
+            const response = await fetch(`${SERVER_ADDRESS}/products/${productId}`)
+            const data = await response.json();
+            console.log("product to modify");
+            console.log(data)
+            setProductToModify(data);
+            setModifyIsLoading(false);
+            dispatchForm({ type: SET_FORM_FROM_EDIT })
+        } catch (error) {
+            console.log("error in fetching product to edit");
+            setError(error.message);
+        }
+    }
+
     const submitHandler = async (event) => {
         event.preventDefault();
         const product = {
@@ -80,11 +129,16 @@ const ProductModify = () => {
             authorLink: authorLinkRef.current.value,
             tags: [...tags]
         }
-
+        let method = 'POST';
+        let address = `${SERVER_ADDRESS}/products`;
+        if(editingProduct) {
+            method = 'PUT';
+            address = `${SERVER_ADDRESS}/products/${productId}`
+        }
         try {
-            setIsLoading(true);
-            const response = await fetch(`${serverAddress}/products`, {
-                method: 'POST',
+            setSubmitIsLoading(true);
+            const response = await fetch(address, {
+                method: method,
                 body: JSON.stringify(product),
                 headers: {
                     'Content-Type': 'application/json'
@@ -101,9 +155,7 @@ const ProductModify = () => {
             console.log("error in submitting new product");
             setError(error.message)
         }
-        setIsLoading(false);
-        console.log("object to send to the be");
-        console.log(product)
+        setSubmitIsLoading(false);
     }
 
     const addTagHandler = () => {
@@ -156,6 +208,8 @@ const ProductModify = () => {
 
     return(
         <div className={ styles['product-modify']}>
+            {modifyIsLoading && <div className={ styles['modify-loader']}><LoadingSpinner /></div>}
+            {!modifyIsLoading && editingProduct && <h3>Editing</h3>}
             <form className={ styles.form } onSubmit={ submitHandler }>
             <Input type="text" id="title" ref={ titleRef } label="Title" changeHandler={ event => inputFormHandler(event,  SET_TITLE)}/>
             <Input type="text" id="imageLink" ref={ imgLinkRef } label="Image Link" changeHandler={ event => inputFormHandler(event, SET_IMGLINK) } />
@@ -167,9 +221,11 @@ const ProductModify = () => {
                 <input type="text" ref={tagSelectedRef} onChange={ tagInputChangeHandler }/>
                 {tagSelected ? 
                 <>
+                <div className={styles['multiple-buttons-container']}>
                 <button className={ styles['clear-tag']} onClick={ resetTagSelectedHandler }>clear</button>
                 <button className={ styles['delete-tag']} onClick={ deleteTagSelectedHandler }>delete</button>
                 <button className={ styles['edit-tag']} onClick={ editTagHandler }>edit</button>
+                </div>
                 </>:
                 <button onClick={ addTagHandler } className={ styles['add-tag']} disabled={!addEnabled}>add</button>
                 }
@@ -182,10 +238,10 @@ const ProductModify = () => {
                 <p>No tags added yet.</p>
                 }
             </div>
-            <button disabled={ !formIsValid || isLoading }>save</button>
+            <button disabled={ !formIsValid || submitIsLoading }>save</button>
             </form>
-            { isLoading && <LoadingSpinner />}
-            { !isLoading && error && <p>{ error }</p> }
+            { submitIsLoading && <LoadingSpinner />}
+            { !submitIsLoading && error && <p>{ error }</p> }
         </div>
     )
 }
