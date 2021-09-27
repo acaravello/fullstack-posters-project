@@ -14,6 +14,7 @@ const Product = db.model('Product', {
         validator: isURL,
         message: props => `${props.value} is not a valid URL`
     } },
+    price: {type: Number, required: true },
     tags: [{
         type: String,
     }]

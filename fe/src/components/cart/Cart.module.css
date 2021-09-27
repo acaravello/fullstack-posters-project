@@ -1,0 +1,87 @@
+
+.modal-content {
+    cursor: default;
+    font-size: 21px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    flex-direction: column;
+}
+
+.cart-title {
+    display: flex;
+    justify-content: center;
+    font-size: 33px;
+    margin-bottom: 20px;
+    color: #ffc857;
+}
+
+.total-price {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #ffc857;
+    cursor: default;
+    position: absolute;
+    bottom: 6px;
+    margin-left: 2px;
+}
+
+.cart-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 30rem;
+    overflow-y: auto;
+    width:100%;
+  }
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+}
+
+.modal-actions .back-button {
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.modal-actions .order-button {
+    border-radius: 5px;
+}
+
+.back-button, .order-button, .close-button {
+    padding: 12px 40px;
+    appearance: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 20px;
+    opacity: 1;
+    transition: opacity 600ms ease;
+}
+
+.back-button:hover, .order-button:hover {
+    opacity: 0.8;
+}
+
+.back-button {
+    background-color: #aecad6;
+    background-image: linear-gradient(315deg, #aecad6 0%, #b8d3fe 74%);
+    margin-right: 12px;
+}
+
+.order-button, .close-button {
+    background-color: #4c4177;   
+    background-image: linear-gradient(315deg, #4c4177 0%, #2a5470 74%);
+}
+
+.no-item {
+    text-align: center;
+}
+

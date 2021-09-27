@@ -93,6 +93,7 @@ const ProductDetail = () => {
                 <a href={productDetail.imageLink} target="_blank" rel="noreferrer"><img src={ productDetail.imageLink} alt={ productDetail.title} /></a>
             </div>
             <div className={ styles.description }>{ productDetail.title }</div>
+            <div className={styles.price}> ${ productDetail.price.toFixed(2) }</div>
             <div className={ styles['tag-container']}>{ productDetail.tags.map( (tag, index) => <div key={index} className={styles.tag}> {tag} </div>)}</div>
             <div className={ styles.author}>
                 <a href={ productDetail.authorLink } target="_blank" rel="noreferrer">{ productDetail.author }</a>

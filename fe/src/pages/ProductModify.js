@@ -11,6 +11,7 @@ const SET_TITLE = "SET_TITLE";
 const SET_IMGLINK = "SET_IMGLINK";
 const SET_AUTHOR = "SET_AUTHOR";
 const SET_AUTHORLINK = "SET_LINK";
+const SET_PRICE = "SET_PRICE";
 const SET_FORM_FROM_EDIT = "SET_FORM_FROM_EDIT";
 const FORM_VALIDITY = "FORM_VALIDITY";
 const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
@@ -25,8 +26,10 @@ const formReducer = (state, action) => {
             return { ...state, authorValid: action.payload }
         case SET_AUTHORLINK: 
             return { ...state, authorLinkValid: action.payload }
+        case SET_PRICE:
+            return {...state, priceValid: action.payload }
         case SET_FORM_FROM_EDIT: 
-            return { ...state, formIsValid: true, titleValid: true,
+            return { ...state, formIsValid: true, titleValid: true, priceValid: true,
                 imgLinkValid: true, authorValid: true, authorLinkValid: true }
         case FORM_VALIDITY:
             let formTotalValidation = true;
@@ -51,6 +54,7 @@ const ProductModify = () => {
     const imgLinkRef = useRef();
     const authorRef = useRef();
     const authorLinkRef = useRef();
+    const priceRef = useRef();
     const tagSelectedRef = useRef();
 
     const [tags, setTags] = useState([]);
@@ -68,14 +72,15 @@ const ProductModify = () => {
         imgLinkValid: false,
         authorValid: false,
         authorLinkValid: false,
+        priceValid: false
     })
 
-    const { formIsValid, titleValid, imgLinkValid, authorValid, authorLinkValid } = formState;
+    const { formIsValid, titleValid, imgLinkValid, authorValid, authorLinkValid, priceValid } = formState;
 
     useEffect(() => {
         const identifier = setTimeout(() => { dispatchForm({ type: FORM_VALIDITY }); }, 500);
         return () => { clearTimeout(identifier); }
-      }, [titleValid, imgLinkValid, authorValid, authorLinkValid]);
+      }, [titleValid, imgLinkValid, authorValid, authorLinkValid, priceValid]);
 
       useEffect(() => {
         isEditingProduct(productId);
@@ -86,19 +91,22 @@ const ProductModify = () => {
             imgLinkRef.current.value = "";
             authorRef.current.value = "";
             authorLinkRef.current.value = "";
+            priceRef.current.value = "";
             tagSelectedRef.current.value = "";
             setTagSelected(null);
             setTags([]);
         }
+        window.scrollTo(0, 0);
       }, [productId]);
 
       useEffect(() => {
           if(productToModify) {
-            const { title, imageLink, author, authorLink, tags } = productToModify;
+            const { title, imageLink, author, authorLink, price, tags } = productToModify;
             titleRef.current.value = title;
             imgLinkRef.current.value = imageLink;
             authorRef.current.value = author;
             authorLinkRef.current.value = authorLink;
+            priceRef.current.value = price.toFixed(2);
             setTagSelected(null);
             setTags([...tags]);
           }
@@ -127,6 +135,7 @@ const ProductModify = () => {
             imageLink: imgLinkRef.current.value,
             author: authorRef.current.value,
             authorLink: authorLinkRef.current.value,
+            price: priceRef.current.value,
             tags: [...tags]
         }
         let method = 'POST';
@@ -171,6 +180,16 @@ const ProductModify = () => {
         return false;
     }
 
+    const checkPriceValidity = (value) => {
+        if(value.length > 0) return true;
+        return false;
+    }
+
+    const priceHandler = (event) => {
+        const isValid = checkPriceValidity(event.target.value);
+        dispatchForm({type: SET_PRICE, payload: isValid })
+    }
+
     const tagInputChangeHandler = (event) => {
         const isValid = checkInputValidity(event.target.value);
         setAddEnabled(isValid);
@@ -210,10 +229,11 @@ const ProductModify = () => {
     return(
         <div className={ styles['product-modify']}>
             {modifyIsLoading && <div className={ styles['modify-loader']}><LoadingSpinner /></div>}
-            {!modifyIsLoading && editingProduct && <h3>Editing</h3>}
+            {!modifyIsLoading && editingProduct && <h3 className={styles['edit-title']}>Editing</h3>}
             <form className={ styles.form } onSubmit={ submitHandler }>
             <Input type="text" id="title" ref={ titleRef } label="Title" changeHandler={ event => inputFormHandler(event,  SET_TITLE)}/>
             <Input type="text" id="imageLink" ref={ imgLinkRef } label="Image Link" changeHandler={ event => inputFormHandler(event, SET_IMGLINK) } />
+            <Input type="number" id="priceLink" step="0.01" ref={ priceRef } label="Price" changeHandler={ priceHandler }/>
             <Input type="text" id="author" ref={ authorRef } label="Author" changeHandler={ event => inputFormHandler(event, SET_AUTHOR) } />
             <Input type="text" id="authorLink" ref={ authorLinkRef } label="Author Link"  changeHandler={ event => inputFormHandler(event, SET_AUTHORLINK) }/>
             <div className={styles["tags-container"]}>

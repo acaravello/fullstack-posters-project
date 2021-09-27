@@ -2,11 +2,26 @@
 import React from "react";
 import styles from "./ProductsList.module.css";
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { ADD_TO_CART } from "../store/store";
 
 const ProductsList = ({ products, offset, onChangePage, pages }) => {
+
     const history = useHistory();
+    const dispatch = useDispatch();
     const clickProductHandler = (productId) => {
         history.push(`/${productId}`)
+    }
+
+    const addToCartHandler = (product) => {
+        const productObject =  {
+            _id: product._id,
+            title: product.title,
+            imageLink: product.imageLink,
+            price: product.price,
+            quantity: 1
+        }
+        dispatch({type: ADD_TO_CART, item: productObject});
     }
     return(
         <>
@@ -19,6 +34,8 @@ const ProductsList = ({ products, offset, onChangePage, pages }) => {
                      <div className={styles['info-container']}>
                      <div className={styles.description }>{ product.title }</div>
                      <div className={ styles.author }><a href={product.authorLink} target="_blank" rel="noreferrer">{ product.author }</a></div>
+                     <div className={styles.price}> ${product.price.toFixed(2)}</div>
+                     <div className={styles['to-cart']} onClick={() => addToCartHandler(product)}><button>Add to cart</button></div>
                      </div>   
                     </div>
             })}

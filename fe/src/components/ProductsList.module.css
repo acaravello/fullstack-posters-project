@@ -40,13 +40,20 @@
 }
 
 .products .description {
-    padding: 20px 0;
+    padding: 20px 0 10px 0;
     font-size: 18px;
     color: #fff;
 }
 
+.products .price {
+    padding-bottom: 10px;
+    font-size: 15px;
+    transition: color 300ms ease-in;
+    color: #fff;
+}
+
 .products .author {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     font-size: 12px;
     cursor: pointer;
     transition: color 300ms ease-in;
@@ -101,4 +108,21 @@
 .pagination .page-button:hover {
     opacity: 0.8;
     border-color: antiquewhite;
+}
+
+.to-cart button {
+    outline: none;
+    border: 1px solid #ffc857;
+    padding: .50rem 1.5rem;
+    color: #ffc857;
+    margin-bottom: 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.6s ease, color 0.8s ease;
+}
+
+.to-cart button:hover {
+    background-color: #ffc857;
+    color: #fff;
 }

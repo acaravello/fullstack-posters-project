@@ -32,6 +32,11 @@ input {
     outline: none !important;
 }
 
+.edit-title {
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
 .tags-container {
     margin-top: 40px;
     padding-top: 20px;

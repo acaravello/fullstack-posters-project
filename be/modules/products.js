@@ -21,8 +21,9 @@ const getSingleProduct = async (productId) => {
    const imageLink = product.imageLink;
    const author = product.author;
    const authorLink = product.authorLink;
+   const price = product.price;
    const tags = [...product.tags];
-   const productToAdd = await new Product({ title, imageLink, author, authorLink, tags }).save();
+   const productToAdd = await new Product({ title, imageLink, author, authorLink, price, tags }).save();
    return productToAdd;
  }
 
@@ -31,8 +32,9 @@ const getSingleProduct = async (productId) => {
    const imageLink = product.imageLink;
    const author = product.author;
    const authorLink = product.authorLink;
+   const price = product.price;
    const tags = [...product.tags];
-   const productToEdit = { title, imageLink, author, authorLink, tags }
+   const productToEdit = { title, imageLink, author, authorLink, price, tags }
    const editOperation = await Product.updateOne({_id: productId }, productToEdit);
    return editOperation;
  }
