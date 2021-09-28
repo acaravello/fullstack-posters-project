@@ -5,6 +5,7 @@ import styles from "./Cart.module.css";
 import CartItem from "./CartItem";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../../store/store";
+import { Scrollbars } from "react-custom-scrollbars";
 
 const Cart = ({ onClose }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,8 +30,10 @@ const Cart = ({ onClose }) => {
                 <div className={styles['cart-title']}>Total products: { totalItems }</div>
                 {totalItems && totalItems > 0 ?
                 <ul className={styles['cart-items']}>
+                    <Scrollbars style={{ height: 300}}>
                 {cartState && cartState.items.map(item =>  <CartItem key={ item._id } { ...item } 
                 onAdd={() => cartItemAddHandler(item)} onRemove={() => cartItemRemoveHandler(item._id)} />)}
+                </Scrollbars>
             </ul> :
             <p className={styles['no-item']}>No items in the cart.</p>
                 }

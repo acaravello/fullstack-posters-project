@@ -4,13 +4,15 @@ export const SET_PAGE = "SET_PAGE";
 export const ADD_TO_CART = "ADD_ITEM_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_ITEM_FROM_CART";
 export const EMPTY_CART = "EMPTY CART";
+export const FILL_CART = "FILL_CART";
 
 const cartInitialState = {
     items: [],
     totalAmount: 0,
     addItem: (item) => {},
     removeItem: (id) => {},
-    emptyCart: () => {}
+    emptyCart: () => {},
+    fillCart: () => {}
 }
 
 const productsReducer = (state = { page: 0}, action) => {
@@ -58,6 +60,10 @@ const cartReducer = (state = cartInitialState, action) => {
         case EMPTY_CART:
             return {
                 ...state, items: [], totalAmount: 0
+            }
+        case FILL_CART:
+            return {
+                ...state, items: action.items, totalAmount: action.items.reduce((start, item)=> start + item.quantity * item.price, 0)
             }
         default: 
             return state;

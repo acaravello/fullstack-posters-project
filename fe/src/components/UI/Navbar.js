@@ -4,17 +4,27 @@ import styles from "./Navbar.module.css";
 import { NavLink } from "react-router-dom";
 import CartIcon from "../cart/CartIcon";
 import Cart from "../cart/Cart";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { FILL_CART } from "../../store/store";
 
 const Navbar = () => {
 
     const [showCart, setShowCart] = useState(false);
     const [buttonBumped, setButtonBumped] = useState(false);
     const cartState = useSelector(state => state.cart);
-    const totalQuantity = cartState.items.reduce((starting, item) => starting + item.quantity, 0)
+    const totalQuantity = cartState.items.reduce((starting, item) => starting + item.quantity, 0);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const items = JSON.parse(localStorage.getItem('poster-cart'));
+        if(items) {
+            dispatch({type: FILL_CART, items: items});
+        }
+    }, [])
 
     useEffect(() => {
         let timeout;
+        localStorage.setItem('poster-cart', JSON.stringify(cartState.items));
         if(cartState.items.length > 0) {
             setButtonBumped(true);
             timeout = setTimeout(() => {
