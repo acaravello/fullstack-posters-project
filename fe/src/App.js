@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom"
 import styles from "./App.module.css";
 import Navbar from "./components/UI/Navbar";
 import Homepage from "./pages/Homepage";
+import Orders from "./pages/Orders";
 import ProductDetail from "./pages/ProductDetail";
 import ProductModify from "./pages/ProductModify";
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" exact render={() => <Homepage />}/>
         <Route path="/new" exact render={ () => <ProductModify /> } />
         <Route path="/edit/:productId" exact render={ () => <ProductModify /> } />
+        <Route path="/orders" render={ () => <Orders />} />
         <Route path="/:productId" render={() => <ProductDetail /> } />
         </Switch>
       </header>

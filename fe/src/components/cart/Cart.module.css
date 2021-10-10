@@ -9,6 +9,12 @@
     flex-direction: column;
 }
 
+.modal-content.order-placed {
+    align-items: center;
+    margin-bottom: 0px;
+    color: #ffc857;
+}
+
 .cart-title {
     display: flex;
     justify-content: center;

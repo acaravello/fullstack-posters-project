@@ -20,7 +20,7 @@ const Navbar = () => {
         if(items) {
             dispatch({type: FILL_CART, items: items});
         }
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         let timeout;
@@ -52,6 +52,7 @@ const Navbar = () => {
             <div className={ styles['links-container']}>
                 <NavLink to="/" exact activeClassName={ styles.active }>Products</NavLink>
                 <NavLink to="/new" exact activeClassName={ styles.active }>New Product</NavLink>
+                <NavLink to ="/orders" exact activeClassName={ styles.active }> Orders </NavLink>
             </div>
             <div className={cartClasses} onClick={ openCartHandler }>
                 <CartIcon />
