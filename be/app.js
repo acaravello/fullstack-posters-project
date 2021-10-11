@@ -1,6 +1,6 @@
 
 const express = require('express');
-const port = process.env.port || 1337;
+const port = process.env.PORT || 8080;
 const app = express();
 const productsApi = require('./modules/productsAPI');
 const middleware = require('./modules/middleware');
