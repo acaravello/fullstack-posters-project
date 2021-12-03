@@ -6,7 +6,7 @@ const productsList = async (req, res) => {
     const { limit = 25, offset = 0 } = req.query;
     try {
         const dataRetrieved = await products.getFiles(Number(limit), Number(offset));
-        res.json(dataRetrieved);
+        res.json({...dataRetrieved});
     } catch(err) {
         res.status(500).json({ error: err.message });
     }

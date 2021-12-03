@@ -27,8 +27,6 @@ const Homepage = ({ itemsPerPage = 25}) => {
             throw new Error('Error in contacting the server! try again in a few minutes.')
             }
             const data = await response.json();
-            console.log("response from fetching data");
-            console.log(data)
             setIsLoading(false);
             setLoadedProducts(data.products);
             setTotalLength(data.totalLength);

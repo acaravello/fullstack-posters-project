@@ -34,7 +34,7 @@ const Orders = () => {
     return (
         <>
          { isLoading && !error && <LoadingSpinner /> }
-         { error && <div><p> { error }</p></div> }
+         { error && <div><p className={ styles['error-message'] }> { error }</p></div> }
         {! isLoading && !error && 
         <div className={styles['orders-container']}>
              { ordersHistory.length > 0 && ordersHistory.map(order => <div key={ order._id } className={ styles['single-order']}>

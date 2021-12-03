@@ -7,7 +7,7 @@ import Cart from "../cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { FILL_CART } from "../../store/store";
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, logoutHandler }) => {
 
     const [showCart, setShowCart] = useState(false);
     const [buttonBumped, setButtonBumped] = useState(false);
@@ -51,8 +51,10 @@ const Navbar = () => {
             <div></div>
             <div className={ styles['links-container']}>
                 <NavLink to="/" exact activeClassName={ styles.active }>Products</NavLink>
-                <NavLink to="/new" exact activeClassName={ styles.active }>New Product</NavLink>
+                {isLoggedIn && <NavLink to="/new" exact activeClassName={ styles.active }>New Product</NavLink> }
                 <NavLink to ="/orders" exact activeClassName={ styles.active }> Orders </NavLink>
+                {!isLoggedIn && <NavLink to="/login" exact activeClassName={ styles.active }>Login</NavLink> }
+                {isLoggedIn && <button className={ styles['nav-button']} onClick={ logoutHandler }>Logout</button>}
             </div>
             <div className={cartClasses} onClick={ openCartHandler }>
                 <CartIcon />

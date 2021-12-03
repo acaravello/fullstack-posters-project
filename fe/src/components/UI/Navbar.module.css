@@ -22,15 +22,34 @@
     margin-right: 12px;
     box-shadow: 0 0 #282c34;
     color: #fff;
-    font-size: 22px;
+    font-size: 20px;
     line-height: 36px;
     border-bottom: 1px solid transparent;
-    transition: border-bottom 200ms ease;
+    transition: border-bottom 600ms ease;
 }
+
 
 .navbar .links-container a.active {
     color: #4c4177;
     border-bottom: 2px solid #4c4177;
+}
+
+.navbar .nav-button {
+    margin-left: 12px;
+    margin-right: 12px;
+    box-shadow: 0 0 #282c34;
+    color: #fff;
+    font-size: 20px;
+    line-height: 36px;
+    border:none;
+    border-bottom: 2px solid transparent;
+    transition: all 800ms ease;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.navbar .nav-button:hover {
+    color: #4c4177;
 }
 
 .cart-container {

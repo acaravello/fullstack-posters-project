@@ -50,6 +50,8 @@ const ProductModify = () => {
     const dispatch = useDispatch();
     const { productId } = useParams();
 
+    const tokenFetched = localStorage.getItem('token');
+
     const titleRef = useRef();
     const imgLinkRef = useRef();
     const authorRef = useRef();
@@ -150,7 +152,8 @@ const ProductModify = () => {
                 method: method,
                 body: JSON.stringify(product),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + tokenFetched
                 }
             });
             if(!response.ok) {
@@ -231,11 +234,11 @@ const ProductModify = () => {
             {modifyIsLoading && <div className={ styles['modify-loader']}><LoadingSpinner /></div>}
             {!modifyIsLoading && editingProduct && <h3 className={styles['edit-title']}>Editing</h3>}
             <form className={ styles.form } onSubmit={ submitHandler }>
-            <Input type="text" id="title" ref={ titleRef } label="Title" changeHandler={ event => inputFormHandler(event,  SET_TITLE)}/>
-            <Input type="text" id="imageLink" ref={ imgLinkRef } label="Image Link" changeHandler={ event => inputFormHandler(event, SET_IMGLINK) } />
-            <Input type="number" id="priceLink" step="0.01" ref={ priceRef } label="Price" changeHandler={ priceHandler }/>
-            <Input type="text" id="author" ref={ authorRef } label="Author" changeHandler={ event => inputFormHandler(event, SET_AUTHOR) } />
-            <Input type="text" id="authorLink" ref={ authorLinkRef } label="Author Link"  changeHandler={ event => inputFormHandler(event, SET_AUTHORLINK) }/>
+            <Input type="text" id="title" ref={ titleRef } label="Title:" changeHandler={ event => inputFormHandler(event,  SET_TITLE)}/>
+            <Input type="text" id="imageLink" ref={ imgLinkRef } label="Image Link:" changeHandler={ event => inputFormHandler(event, SET_IMGLINK) } />
+            <Input type="number" id="priceLink" step="0.01" ref={ priceRef } label="Price:" changeHandler={ priceHandler }/>
+            <Input type="text" id="author" ref={ authorRef } label="Author:" changeHandler={ event => inputFormHandler(event, SET_AUTHOR) } />
+            <Input type="text" id="authorLink" ref={ authorLinkRef } label="Author Link:"  changeHandler={ event => inputFormHandler(event, SET_AUTHORLINK) }/>
             <div className={styles["tags-container"]}>
                 <div className={styles['tag-label']}> Tags</div>
                 <div className={styles['tag-input-container']}>
@@ -262,7 +265,7 @@ const ProductModify = () => {
             <button disabled={ !formIsValid || submitIsLoading }>save</button>
             </form>
             { submitIsLoading && <LoadingSpinner />}
-            { !submitIsLoading && error && <p>{ error }</p> }
+            { !submitIsLoading && error && <p className={ styles['error-message']}>{ error }</p> }
         </div>
     )
 }

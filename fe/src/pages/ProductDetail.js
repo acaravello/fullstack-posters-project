@@ -5,11 +5,11 @@ import { useParams, useHistory } from "react-router";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import Modal from "../components/UI/Modal";
 import styles from "./ProductDetail.module.css";
-import { SET_PAGE } from "../store/store";
+import { ADD_TO_CART, SET_PAGE } from "../store/store";
 
 const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
-const ProductDetail = () => {
+const ProductDetail = ({ isLoggedIn }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [productDetail, setProductDetail] = useState(null);
@@ -19,6 +19,8 @@ const ProductDetail = () => {
     const { productId}  = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const tokenFetched = localStorage.getItem('token');
 
     const getProductDetail = useCallback( async() => {
         setIsLoading(true);
@@ -67,7 +69,10 @@ const ProductDetail = () => {
         setIsSubmitting(true);
         try {
             const response = await fetch(`${SERVER_ADDRESS}/products/${productId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + tokenFetched
+                }
             });
             if(!response.ok) {
                 console.log("error in retrieving product by id");
@@ -84,6 +89,17 @@ const ProductDetail = () => {
         }
     }
 
+    const addToCartHandler = () => {
+        const productObject =  {
+            _id: productDetail._id,
+            title: productDetail.title,
+            imageLink: productDetail.imageLink,
+            price: productDetail.price,
+            quantity: 1
+        }
+        dispatch({type: ADD_TO_CART, item: productObject});
+    }
+
     return(
         <>
         { isLoading && !error && <LoadingSpinner /> }
@@ -98,14 +114,22 @@ const ProductDetail = () => {
             <div className={ styles.author}>
                 <a href={ productDetail.authorLink } target="_blank" rel="noreferrer">{ productDetail.author }</a>
             </div>
+            {isLoggedIn && 
+            <>
             <button className={ styles['edit-button']} onClick={ onEditHandler }>edit</button>
             <button className={ styles['delete-button']} onClick={ onDeleteHandler }>delete</button>
-            <button className={ styles['back-button'] } onClick={ onBackHandler }>Back</button>
+            </>
+            }
+            {!isLoggedIn &&
+            <div className={styles['to-cart']} onClick={() => addToCartHandler()}><button>Add to cart</button></div>
+            }
+            
+            <button className={ styles['back-button'] } onClick={ onBackHandler }>back</button>
         </div>
         }
         { error && <div>
-            <p>{ error }</p>
-            <button className={ styles['back-button'] } onClick={ onBackHandler }>Back</button>
+            <p className={styles['error-message']}>{ error }</p>
+            <button className={ styles['back-button'] } onClick={ onBackHandler }>back</button>
             </div> 
         }
 
