@@ -6,6 +6,7 @@ import CartItem from "./CartItem";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_TO_CART, EMPTY_CART, REMOVE_FROM_CART } from "../../store/store";
 import { Scrollbars } from "react-custom-scrollbars";
+import Input from "../UI/Input";
 
 const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
 
@@ -17,6 +18,11 @@ const Cart = ({ onClose }) => {
     const totalItems = cartState.items.reduce((initial, item) => initial + item.quantity, 0);
     const dispatch = useDispatch();
 
+    const [mail, setMail] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [infoVisible, setInfoVisible] = useState(false);
+
     const cartItemAddHandler = (item) => {
         dispatch({type: ADD_TO_CART, item });
     }
@@ -27,7 +33,9 @@ const Cart = ({ onClose }) => {
 
     const orderHandler = async () => {
         const orderObject = {
-            buyerEmail: 'tony@mail.com',
+            buyerEmail: mail,
+            city: city,
+            address: address,
             products: [...cartState.items],
             totalPrice: cartState.totalAmount.toFixed(2)
         }
@@ -48,6 +56,9 @@ const Cart = ({ onClose }) => {
             console.log("response from fetching data");
             console.log(data);
             setOrderIsPlaced(data.message)
+            setMail('');
+            setAddress('');
+            setCity('');
             setIsSubmitting(false);
             dispatch({ type: EMPTY_CART });
             // onClose();
@@ -56,6 +67,18 @@ const Cart = ({ onClose }) => {
             setError(error.message);
             setIsSubmitting(false);
         }
+    }
+
+    const emailChangeHandler = (event) => {
+        setMail(event.target.value);
+    }
+
+    const addressChangeHandler = (event) => {
+        setAddress(event.target.value);
+    }
+
+    const cityChangeHandler = (event) => {
+        setCity(event.target.value);
     }
 
     return (
@@ -75,6 +98,8 @@ const Cart = ({ onClose }) => {
             {!orderIsPlaced && isSubmitting && !error && <div className={ `${styles['modal-content']} ${styles['order-placed']}` }>Submitting...</div>}
             {!orderIsPlaced && !isSubmitting && !error &&
             <>
+            {!infoVisible && 
+            <>
             <div className={ styles['modal-content'] }>
                 <div className={styles['cart-title']}>Total products: { totalItems }</div>
                 {totalItems && totalItems > 0 ?
@@ -90,13 +115,25 @@ const Cart = ({ onClose }) => {
             </div>
             <div className={styles['total-price']}>Total price: ${ cartState.totalAmount.toFixed(2) }</div>
             </>
+            }   
+            {infoVisible && 
+            <>
+            <div className={ styles['modal-content'] }>
+            <Input type="text" id="email-user" label="email:" changeHandler={ emailChangeHandler }/>
+            <Input type="text" id="address-user" label="address:" changeHandler={ addressChangeHandler }/>
+            <Input type="text" id="city-user" label="city:" changeHandler={ cityChangeHandler }/>
+            </div>
+            </>
+            }
+            </>
             }
             {!orderIsPlaced && !isSubmitting &&
             <div className={ styles['modal-actions'] }>
             { totalItems && totalItems > 0 ?
             <>
             <button className={ styles['back-button']} onClick={ onClose }>Cancel</button>
-            { !error && <button className={ styles['order-button']} onClick={ orderHandler }>Order</button> }
+            { !error && !infoVisible && <button className={ styles['order-button']} onClick={ setInfoVisible }>Order</button> }
+            { !error && infoVisible && <button className={ styles['order-button']} onClick={ orderHandler }>Submit</button> }
             </> :
             <button className={styles['close-button']} onClick={ onClose}>Close</button>
             }

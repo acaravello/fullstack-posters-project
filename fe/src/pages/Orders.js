@@ -39,7 +39,7 @@ const Orders = () => {
         <div className={styles['orders-container']}>
              { ordersHistory.length > 0 && ordersHistory.map(order => <div key={ order._id } className={ styles['single-order']}>
                 <div className={ styles['order-by']}>Order by: { order.buyerEmail }</div>
-                <div className={ styles['status']}>status: { order.status} </div>
+                <div className={ styles['status']}>Address: { order.address }, { order.city }</div>
                 <div className={ styles['order-products-container']}>
                 { order.products && order.products.map(product => 
                 <div className={ styles['single-product']} key={ product._id}>{ product.title} - ${product.price} x { product.quantity } </div>
@@ -48,6 +48,9 @@ const Orders = () => {
                 <div className={ styles['total-price']}>Total price: <span className={ styles.gold }>${order.totalPrice}</span></div>
             </div>
             )}
+            {ordersHistory.length === 0 && 
+            <p>No orders placed yet!</p>
+            }
         </div>
         }
         </>

@@ -11,6 +11,8 @@ const OrderSchema = new Schema(
             validator: isEmail,
             message: props => `${props.value} is not a valid e-mail`
         }},
+        address: { type: String },
+        city: { type: String },
         products: [{
             type: Object,
             // ref: 'Product',

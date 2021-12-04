@@ -9,10 +9,12 @@ getOrders = async ({limit = 25, offset = 0}) => {
 
 postOrder = async (order) => {
     const buyerEmail = order.buyerEmail;
+    const address = order.address;
+    const city = order.city;
     const products = order.products;
     const status = order.status;
     const totalPrice = order.totalPrice;
-    const orderToAdd = new Order({ buyerEmail, products, totalPrice, status}).save();
+    const orderToAdd = new Order({ buyerEmail, address, city, products, totalPrice, status}).save();
     return orderToAdd;
 }
 
