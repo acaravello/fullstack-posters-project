@@ -1,5 +1,5 @@
 # fullstack-posters-project
-A fullstack MERN application with two types of users: the buyer, who can choose between a list of posters, see the details, add posters to the cart, and submit an order. and the administrator (signup as admin/root to see these functionalities) who can edit, delete, and add a new poster.
+A fullstack MERN application with two types of users: the buyer, who can choose between a list of posters, see the details, add posters to the cart, and submit an order, and the administrator (signin as admin/root to see these functionalities) who can edit, delete, and add a new poster.
 
 In order to use the application on local environment, you have to set two variables:
 
