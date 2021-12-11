@@ -91,3 +91,20 @@
     text-align: center;
 }
 
+@media(max-width: 599px) {
+    .cart-title {
+        font-size: 18px;
+    }
+    .total-price {
+        font-size: 18px;
+        position: relative;
+    }
+    .back-button, .order-button, .close-button {
+        padding: 10px 20px;
+        font-size: 12px;
+    }
+
+    .modal-content input {
+        padding: 10px 16px !important;
+    }
+}

@@ -60,7 +60,6 @@
     border: none;
     border-radius: 2px;
     font-size: 14px;
-    
     color: #fff;
     cursor: pointer;
     margin-top: 20px;
@@ -137,5 +136,29 @@
     font-size: 1.2rem;
     color: #ff8489;
     min-height: 25px;
+}
+
+@media(max-width: 599px) {
+    .image-container {
+        width: 90%;
+        margin: auto;
+    }
+    .description {
+        height: auto;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin: auto;
+        margin-bottom: 20px;
+        margin-top: 4px;
+        width: 90%;
+    }
+    .modal-content {
+        font-size: 15px;
+        margin-top: 30px;
+    }
+    .back-button, .edit-button, .delete-button {
+        padding: 10px 20px;
+        font-size: 12px;
+    }
 }
 

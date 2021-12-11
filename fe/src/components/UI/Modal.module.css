@@ -30,6 +30,13 @@
       left: calc(50% - 20rem);
     }
   }
+
+  @media(max-width: 599px) {
+    .modal {
+      left: 0%;
+      margin: auto;
+    }
+  }
   
   @keyframes slide-down {
     from {

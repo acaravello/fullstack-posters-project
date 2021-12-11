@@ -126,3 +126,16 @@
     background-color: #ffc857;
     color: #fff;
 }
+
+@media(max-width: 599px) {
+
+    .products {
+        margin: 32px auto 24px;
+    }
+
+    .product {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+}

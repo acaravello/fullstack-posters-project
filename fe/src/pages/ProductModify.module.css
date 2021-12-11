@@ -152,3 +152,33 @@ input {
     min-height: 25px;
 }
 
+@media(max-width: 599px) {
+    .edit-title {
+        margin-bottom: 40px;
+    }
+    .form {
+        width: 90%;
+        margin: auto;
+    }
+    input {
+        width: 90%;
+    }
+    .tag-list {
+        max-width: 300px;
+    }
+    .tag-input-container {
+        flex-direction: column;
+    }
+    .form button.add-tag {
+        max-width: 150px;
+        margin:auto;
+        margin-top: 20px;
+    }
+    .multiple-buttons-container {
+        text-align: center;
+    }
+    .multiple-buttons-container button {
+        padding: 12px 20px;
+    }
+    
+}

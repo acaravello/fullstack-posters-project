@@ -108,3 +108,29 @@
       transform: scale(1);
     }
   }
+
+  @media(max-width: 599px) {
+    .navbar {
+      justify-content: center;
+      height: 62px;
+    }
+
+    .navbar .links-container {
+      align-items: center;
+    }
+
+    .navbar .links-container a {
+      font-size: 13px;
+      line-height: 15px;
+    }
+
+    .cart-container {
+      padding: 0.35rem .5rem;
+      font-size: 12px;
+    }
+
+    .navbar .nav-button {
+      font-size: 13px;
+      margin: auto;
+    }
+  }

@@ -77,3 +77,20 @@
     background-color: #ffc857;
     color: white;
   }
+
+  @media(max-width: 599px) {
+    .cart-item {
+      flex-direction: column;
+      margin: auto;
+    }
+    .cart-item h2 {
+      font-size: 18px;
+      margin: 2px auto 10px auto;
+      text-align: center;
+    }
+    .cart-item button {
+      width: 2.5rem;
+      font-size: 15px;
+      padding-bottom: 3px;
+    }
+  }

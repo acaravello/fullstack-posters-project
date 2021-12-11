@@ -21,6 +21,7 @@ function App() {
     const expiringMilliseconds = new Date(expiringDate).getTime();
     const now = new Date().getTime();
     if(now < expiringMilliseconds) { 
+      loginHandler();
       return;
     }
     loggingOutHandler();

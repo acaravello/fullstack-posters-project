@@ -7,7 +7,7 @@
   }
   
   .input label {
-    font-size: 20px;
+    font-size: 18px;
     margin-right: 30px;
     min-width: 100px;
     text-align: left;
@@ -23,4 +23,16 @@
     width: 18rem;
     outline: none !important;
     box-shadow: -6px 6px #ffc857;
+  }
+
+  @media(max-width: 599px) {
+    .input {
+      flex-direction: column;
+    }
+    .input label {
+      margin-right: 0px;
+      min-width: 0px;
+      margin-bottom: 12px;
+      margin-top: 6px;
+    }
   }
